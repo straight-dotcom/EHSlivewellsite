@@ -1,20 +1,122 @@
 /* ============================================
    EHS LiveWell — events.js
    Calendar + list view for wellness events
+   Pulls from multiple Google Calendars + local JSON
    ============================================ */
 
+// =============================================
+// CONFIGURATION — Google Calendars
+// =============================================
+// Each entry: { id: 'calendar-id', category: 'CategoryName' }
+// To add more calendars, just add another object to this array.
+//
+// You MUST set GCAL_API_KEY to a valid Google API key with
+// the Google Calendar API enabled. Get one at:
+// https://console.cloud.google.com/apis/credentials
+// =============================================
+const GCAL_API_KEY = ''; // <-- Paste your Google Calendar API key here
+
+const GOOGLE_CALENDARS = [
+  {
+    id: 'episcopalhighschool.org_7ffapvk344g81e0h5hff2dgu64@group.calendar.google.com',
+    category: 'Physical',
+  },
+  {
+    id: 'episcopalhighschool.org_36m49fti5ro1rb16m2qrasmprc@group.calendar.google.com',
+    category: 'Mental',
+  },
+  {
+    id: 'episcopalhighschool.org_3gbspr1l36ko1f83l9vsou3grs@group.calendar.google.com',
+    category: 'Nutrition',
+  },
+  // Add more calendars here:
+  // { id: 'calendar_id@group.calendar.google.com', category: 'Social' },
+  // { id: 'calendar_id@group.calendar.google.com', category: 'Professional' },
+];
+
+// =============================================
+// FETCH EVENTS FROM GOOGLE CALENDAR API
+// =============================================
+
+async function fetchGoogleCalendarEvents() {
+  if (!GCAL_API_KEY) {
+    console.warn('Google Calendar API key not set — using local data only.');
+    return [];
+  }
+
+  const now = new Date();
+  const timeMin = new Date(now.getFullYear(), now.getMonth() - 2, 1).toISOString();
+  const timeMax = new Date(now.getFullYear(), now.getMonth() + 6, 0).toISOString();
+
+  const allEvents = [];
+
+  const fetches = GOOGLE_CALENDARS.map(async (cal) => {
+    const url = `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(cal.id)}/events`
+      + `?key=${GCAL_API_KEY}`
+      + `&timeMin=${timeMin}`
+      + `&timeMax=${timeMax}`
+      + `&singleEvents=true`
+      + `&orderBy=startTime`
+      + `&maxResults=250`;
+
+    try {
+      const resp = await fetch(url);
+      if (!resp.ok) {
+        console.warn(`Failed to fetch calendar "${cal.category}" (${resp.status})`);
+        return;
+      }
+      const data = await resp.json();
+
+      (data.items || []).forEach((item, idx) => {
+        const start = item.start.dateTime || item.start.date;
+        const end = item.end.dateTime || item.end.date;
+
+        allEvents.push({
+          id: `gcal-${cal.category.toLowerCase()}-${idx}`,
+          title: item.summary || '(No title)',
+          description: item.description || '',
+          category: cal.category,
+          startDate: start,
+          endDate: end,
+          link: item.htmlLink || '',
+          source: 'google-calendar',
+        });
+      });
+    } catch (err) {
+      console.warn(`Error fetching calendar "${cal.category}":`, err.message);
+    }
+  });
+
+  await Promise.all(fetches);
+  return allEvents;
+}
+
+// =============================================
+// MAIN
+// =============================================
+
 document.addEventListener('DOMContentLoaded', async () => {
-  const events = await loadData('events.json');
-
-  let currentDate = new Date();
-  let currentView = 'calendar';
-  let activeCategory = 'all';
-
   const calendarGrid = document.getElementById('calendarGrid');
   const eventsList = document.getElementById('eventsList');
   const calendarView = document.getElementById('calendarView');
   const listView = document.getElementById('listView');
   const calendarTitle = document.getElementById('calendarTitle');
+
+  // Show loading state
+  showLoading(calendarGrid);
+
+  // Fetch from both sources in parallel
+  const [localEvents, gcalEvents] = await Promise.all([
+    loadData('events.json'),
+    fetchGoogleCalendarEvents(),
+  ]);
+
+  // Merge and deduplicate (local data as fallback, Google Calendar is primary)
+  const events = [...gcalEvents, ...localEvents];
+
+  let currentDate = new Date();
+  let currentView = 'calendar';
+  let activeCategory = 'all';
 
   // ---- View Toggle ----
   document.querySelectorAll('.view-toggle button').forEach((btn) => {
@@ -97,9 +199,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
       html += `<div class="calendar-day${isToday ? ' today' : ''}">
         <span class="calendar-day-num">${day}</span>
-        ${dayEvents.map((e) =>
-          `<div class="calendar-event cat-${e.category.toLowerCase()}" title="${escapeHtml(e.title)}" data-id="${e.id}">${escapeHtml(e.title)}</div>`
-        ).join('')}
+        ${dayEvents.map((e) => {
+          const catClass = e.category ? `cat-${e.category.toLowerCase()}` : 'cat-physical';
+          return `<div class="calendar-event ${catClass}" title="${escapeHtml(e.title)}" data-id="${e.id}">${escapeHtml(e.title)}</div>`;
+        }).join('')}
       </div>`;
     }
 
@@ -140,7 +243,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       const dayStr = d.getDate();
       const timeStr = formatTime(evt.startDate);
       const endTimeStr = evt.endDate ? formatTime(evt.endDate) : '';
-      const catColor = `var(--cat-${evt.category.toLowerCase()})`;
+      const category = evt.category || 'General';
+      const catColor = `var(--cat-${category.toLowerCase()})`;
 
       return `
         <div class="event-row">
@@ -153,7 +257,7 @@ document.addEventListener('DOMContentLoaded', async () => {
               <span class="event-category-dot" style="background:${catColor}"></span>
               ${escapeHtml(evt.title)}
             </h3>
-            <div class="event-time">${timeStr}${endTimeStr ? ' – ' + endTimeStr : ''} &middot; ${escapeHtml(evt.category)}</div>
+            <div class="event-time">${timeStr}${endTimeStr ? ' – ' + endTimeStr : ''} &middot; ${escapeHtml(category)}</div>
             <p class="card-desc">${escapeHtml(evt.description || '')}</p>
           </div>
         </div>`;
@@ -162,19 +266,19 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // ---- Event Modal ----
   function showEventModal(evt) {
-    const d = new Date(evt.startDate);
     const dateStr = formatDate(evt.startDate);
     const timeStr = formatTime(evt.startDate);
     const endTimeStr = evt.endDate ? formatTime(evt.endDate) : '';
+    const category = evt.category || 'General';
 
     openModal(`
-      <span class="card-badge badge-${evt.category.toLowerCase()}">${escapeHtml(evt.category)}</span>
+      <span class="card-badge badge-${category.toLowerCase()}">${escapeHtml(category)}</span>
       <h2 style="margin: var(--space-sm) 0;">${escapeHtml(evt.title)}</h2>
       <p class="event-time" style="margin-bottom: var(--space-md);">
         ${dateStr} &middot; ${timeStr}${endTimeStr ? ' – ' + endTimeStr : ''}
       </p>
       <p>${escapeHtml(evt.description || '')}</p>
-      ${evt.link ? `<a href="${escapeHtml(evt.link)}" class="btn btn-primary" target="_blank" rel="noopener" style="margin-top:var(--space-md);">More Info</a>` : ''}
+      ${evt.link ? `<a href="${escapeHtml(evt.link)}" class="btn btn-primary" target="_blank" rel="noopener" style="margin-top:var(--space-md);">View in Google Calendar</a>` : ''}
     `);
   }
 

@@ -17,9 +17,9 @@ const CONFIG = {
   // Google Calendar IDs — one per wellness category
   // Create calendars in Google Calendar, then find their IDs in calendar settings
   CALENDAR_IDS: {
-    'Physical':     'your_physical_calendar_id@group.calendar.google.com',
-    'Mental':       'your_mental_calendar_id@group.calendar.google.com',
-    'Nutrition':    'your_nutrition_calendar_id@group.calendar.google.com',
+    'Physical':     'episcopalhighschool.org_7ffapvk344g81e0h5hff2dgu64@group.calendar.google.com',
+    'Mental':       'episcopalhighschool.org_36m49fti5ro1rb16m2qrasmprc@group.calendar.google.com',
+    'Nutrition':    'episcopalhighschool.org_3gbspr1l36ko1f83l9vsou3grs@group.calendar.google.com',
     'Social':       'your_social_calendar_id@group.calendar.google.com',
     'Professional': 'your_professional_calendar_id@group.calendar.google.com',
   },
