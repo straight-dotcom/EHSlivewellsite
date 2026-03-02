@@ -1,0 +1,174 @@
+name: Build and Deploy
+
+on:
+  # Triggered by Apps Script webhook when a submission is approved
+  repository_dispatch:
+    types: [sheet-approved]
+
+  # Allow manual trigger from GitHub UI
+  workflow_dispatch:
+
+  # Also rebuild on pushes to main (for code changes)
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+  pages: write
+
+jobs:
+  fetch-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Fetch approved data from Google Sheet
+        env:
+          # Google Sheet published-as-CSV URLs (one per type)
+          # To get these: File → Share → Publish to web → select sheet tab → CSV
+          # Or use a single sheet with type filtering
+          SHEET_CSV_URL: ${{ secrets.SHEET_CSV_URL }}
+        run: |
+          echo "Fetching data from Google Sheet..."
+
+          # Download the full sheet as CSV
+          curl -L -o /tmp/submissions.csv "$SHEET_CSV_URL"
+
+          echo "Parsing CSV and generating JSON files..."
+
+          # Use a Python script to parse CSV and generate JSON
+          python3 << 'PYTHON_SCRIPT'
+          import csv
+          import json
+          import os
+          from datetime import datetime
+
+          csv_file = '/tmp/submissions.csv'
+          output_dir = 'data'
+          os.makedirs(output_dir, exist_ok=True)
+
+          events = []
+          recommendations = []
+          providers = []
+          resources = []
+
+          # Column mapping — adjust indices if your sheet differs
+          # Expected CSV columns (0-indexed):
+          # 0: Timestamp
+          # 1: Type
+          # 2: Title
+          # 3: Description
+          # 4: Link
+          # 5: File Upload
+          # 6: Start Date
+          # 7: End Date
+          # 8: Category
+          # 9: Submitter Name
+          # 10: Email
+          # 11: Status
+          # 12: Approved By
+          # 13: Approval Timestamp
+          # 14: Drive File Links
+
+          COL = {
+              'type': 1,
+              'title': 2,
+              'description': 3,
+              'link': 4,
+              'file_upload': 5,
+              'start_date': 6,
+              'end_date': 7,
+              'category': 8,
+              'submitter': 9,
+              'status': 11,
+              'drive_links': 14,
+          }
+
+          def safe_get(row, idx):
+              """Safely get a column value."""
+              if idx < len(row):
+                  return row[idx].strip()
+              return ''
+
+          def parse_drive_links(raw):
+              """Parse drive links into a list of {name, url} objects."""
+              if not raw:
+                  return []
+              links = []
+              for line in raw.split('\n'):
+                  line = line.strip()
+                  if line:
+                      # Try to extract filename from Drive URL
+                      name = line.split('/')[-2] if '/d/' in line else 'Attachment'
+                      links.append({'name': name, 'url': line})
+              return links
+
+          counter = 0
+          try:
+              with open(csv_file, 'r', encoding='utf-8') as f:
+                  reader = csv.reader(f)
+                  header = next(reader)  # Skip header row
+
+                  for row in reader:
+                      status = safe_get(row, COL['status'])
+                      if status != 'Approved':
+                          continue
+
+                      counter += 1
+                      item_type = safe_get(row, COL['type'])
+                      item = {
+                          'id': f'{item_type[:3].lower()}-{counter:03d}',
+                          'title': safe_get(row, COL['title']),
+                          'description': safe_get(row, COL['description']),
+                          'link': safe_get(row, COL['link']),
+                          'fileLinks': parse_drive_links(safe_get(row, COL['drive_links'])),
+                          'submitter': safe_get(row, COL['submitter']),
+                      }
+
+                      if item_type == 'Event':
+                          item['category'] = safe_get(row, COL['category'])
+                          item['startDate'] = safe_get(row, COL['start_date'])
+                          item['endDate'] = safe_get(row, COL['end_date'])
+                          events.append(item)
+                      elif item_type == 'Recommendation':
+                          recommendations.append(item)
+                      elif item_type == 'Provider':
+                          # Try to parse specialties from description (comma-separated in parens)
+                          item['specialties'] = []
+                          providers.append(item)
+                      elif item_type == 'Wellness Resource':
+                          resources.append(item)
+                      else:
+                          resources.append(item)  # Default bucket
+
+          except Exception as e:
+              print(f"Error parsing CSV: {e}")
+              # If parsing fails, write empty arrays so site still works
+              pass
+
+          # Write JSON files
+          for name, data in [('events', events), ('recommendations', recommendations),
+                              ('providers', providers), ('resources', resources)]:
+              path = os.path.join(output_dir, f'{name}.json')
+              with open(path, 'w', encoding='utf-8') as f:
+                  json.dump(data, f, indent=2, default=str)
+              print(f"Wrote {len(data)} items to {path}")
+
+          print(f"Total approved items: {counter}")
+          PYTHON_SCRIPT
+
+      - name: Commit updated data files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add data/
+
+          # Only commit if there are changes
+          if git diff --staged --quiet; then
+            echo "No data changes to commit."
+          else
+            git commit -m "Update approved data from Google Sheet [automated]"
+            git push
+          fi

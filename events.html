@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Events — EHS LiveWell</title>
+  <meta name="description" content="Wellness events calendar. Browse upcoming events by category.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="site-header">
+    <nav class="container nav-wrap">
+      <a href="index.html" class="nav-brand">
+        <svg viewBox="0 0 32 32" fill="none">
+          <circle cx="16" cy="16" r="15" stroke="#2a9d8f" stroke-width="2"/>
+          <path d="M16 8c-2 2-6 6-6 10a6 6 0 0 0 12 0c0-4-4-8-6-10z" fill="#2a9d8f" opacity="0.2" stroke="#2a9d8f" stroke-width="1.5"/>
+          <path d="M16 12v8M13 17h6" stroke="#2a9d8f" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        EHS LiveWell
+      </a>
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="events.html">Events</a>
+        <a href="recommendations.html">Recommendations</a>
+        <a href="providers.html">Providers</a>
+        <a href="resources.html">Resources</a>
+        <a href="#" class="nav-submit" id="submitLink">+ Submit</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Page Header -->
+  <section class="page-header">
+    <div class="container">
+      <h1>Events Calendar</h1>
+      <p>Browse and discover wellness events across all categories.</p>
+    </div>
+  </section>
+
+  <main class="section">
+    <div class="container">
+      <!-- Category Legend -->
+      <div class="category-legend">
+        <div class="legend-item"><span class="legend-dot" style="background:var(--cat-physical)"></span> Physical</div>
+        <div class="legend-item"><span class="legend-dot" style="background:var(--cat-mental)"></span> Mental</div>
+        <div class="legend-item"><span class="legend-dot" style="background:var(--cat-nutrition)"></span> Nutrition</div>
+        <div class="legend-item"><span class="legend-dot" style="background:var(--cat-social)"></span> Social</div>
+        <div class="legend-item"><span class="legend-dot" style="background:var(--cat-professional)"></span> Professional</div>
+      </div>
+
+      <!-- Calendar Controls -->
+      <div class="calendar-controls">
+        <div class="calendar-nav">
+          <button id="prevMonth">&larr; Prev</button>
+          <h3 id="calendarTitle">March 2026</h3>
+          <button id="nextMonth">Next &rarr;</button>
+        </div>
+        <div class="view-toggle">
+          <button class="active" data-view="calendar">Calendar</button>
+          <button data-view="list">List</button>
+        </div>
+      </div>
+
+      <!-- Category Filter -->
+      <div class="filters" id="categoryFilters">
+        <button class="filter-btn active" data-cat="all">All</button>
+        <button class="filter-btn" data-cat="Physical">Physical</button>
+        <button class="filter-btn" data-cat="Mental">Mental</button>
+        <button class="filter-btn" data-cat="Nutrition">Nutrition</button>
+        <button class="filter-btn" data-cat="Social">Social</button>
+        <button class="filter-btn" data-cat="Professional">Professional</button>
+      </div>
+
+      <!-- Calendar View -->
+      <div id="calendarView">
+        <div class="calendar-grid" id="calendarGrid"></div>
+      </div>
+
+      <!-- List View -->
+      <div id="listView" style="display:none;">
+        <div class="events-list" id="eventsList"></div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand">EHS LiveWell</div>
+          <p class="footer-desc">Supporting employee wellness through curated resources, events, and trusted provider connections.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <a href="events.html">Events Calendar</a>
+          <a href="recommendations.html">Recommendations</a>
+          <a href="providers.html">Provider Directory</a>
+          <a href="resources.html">Wellness Resources</a>
+        </div>
+        <div class="footer-col">
+          <h4>Get Involved</h4>
+          <a href="#" id="footerSubmit">Submit a Resource</a>
+          <a href="mailto:wellness@ehslivewell.com">Contact Us</a>
+        </div>
+      </div>
+      <div class="footer-bottom">&copy; 2026 EHS LiveWell. All rights reserved.</div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/events.js"></script>
+</body>
+</html>

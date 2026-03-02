@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git init)",
+      "Bash(git branch -M main)",
+      "Bash(gh auth status)",
+      "Bash(git --version)",
+      "Bash(brew install gh)",
+      "Bash(/opt/homebrew/bin/gh auth status)",
+      "Bash(git add -A)",
+      "Bash(git commit -m \"Initial commit: EHS LiveWell wellness platform:*)"
+    ]
+  }
+}

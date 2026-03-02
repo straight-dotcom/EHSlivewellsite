@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EHS LiveWell — Wellness Resources</title>
+  <meta name="description" content="Your organization's wellness resource hub. Events, recommendations, providers, and resources to support your well-being.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="site-header">
+    <nav class="container nav-wrap">
+      <a href="index.html" class="nav-brand">
+        <svg viewBox="0 0 32 32" fill="none">
+          <circle cx="16" cy="16" r="15" stroke="#2a9d8f" stroke-width="2"/>
+          <path d="M16 8c-2 2-6 6-6 10a6 6 0 0 0 12 0c0-4-4-8-6-10z" fill="#2a9d8f" opacity="0.2" stroke="#2a9d8f" stroke-width="1.5"/>
+          <path d="M16 12v8M13 17h6" stroke="#2a9d8f" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        EHS LiveWell
+      </a>
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="events.html">Events</a>
+        <a href="recommendations.html">Recommendations</a>
+        <a href="providers.html">Providers</a>
+        <a href="resources.html">Resources</a>
+        <a href="#" class="nav-submit" id="submitLink">+ Submit</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <h1>Your Wellness, Our Priority</h1>
+      <p>Discover events, resources, and expert providers to support every dimension of your well-being.</p>
+      <div class="hero-actions">
+        <a href="events.html" class="btn btn-primary">Browse Events</a>
+        <a href="resources.html" class="btn btn-outline">Explore Resources</a>
+      </div>
+    </div>
+  </section>
+
+  <main>
+    <!-- Announcement Banner -->
+    <section class="section" style="padding-bottom: 0;">
+      <div class="container">
+        <div class="announcement" id="announcementBanner" style="display:none;">
+          <span class="announcement-icon">&#128197;</span>
+          <div class="announcement-text" id="announcementText"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Upcoming Events -->
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2>Upcoming Events</h2>
+          <a href="events.html" class="view-all">View all events &rarr;</a>
+        </div>
+        <div class="cards-grid" id="homeEvents">
+          <div class="loading"><div class="spinner"></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Latest Recommendations -->
+    <section class="section" style="background: var(--color-white);">
+      <div class="container">
+        <div class="section-header">
+          <h2>Latest Recommendations</h2>
+          <a href="recommendations.html" class="view-all">View all &rarr;</a>
+        </div>
+        <div class="cards-grid" id="homeRecommendations">
+          <div class="loading"><div class="spinner"></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Providers -->
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2>Featured Providers</h2>
+          <a href="providers.html" class="view-all">View directory &rarr;</a>
+        </div>
+        <div class="cards-grid" id="homeProviders">
+          <div class="loading"><div class="spinner"></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Wellness Resources -->
+    <section class="section" style="background: var(--color-white);">
+      <div class="container">
+        <div class="section-header">
+          <h2>Wellness Resources</h2>
+          <a href="resources.html" class="view-all">View all &rarr;</a>
+        </div>
+        <div class="cards-grid" id="homeResources">
+          <div class="loading"><div class="spinner"></div></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand">EHS LiveWell</div>
+          <p class="footer-desc">Supporting employee wellness through curated resources, events, and trusted provider connections.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <a href="events.html">Events Calendar</a>
+          <a href="recommendations.html">Recommendations</a>
+          <a href="providers.html">Provider Directory</a>
+          <a href="resources.html">Wellness Resources</a>
+        </div>
+        <div class="footer-col">
+          <h4>Get Involved</h4>
+          <a href="#" id="footerSubmit">Submit a Resource</a>
+          <a href="mailto:wellness@ehslivewell.com">Contact Us</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        &copy; 2026 EHS LiveWell. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/home.js"></script>
+</body>
+</html>

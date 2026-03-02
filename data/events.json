@@ -1,0 +1,68 @@
+[
+  {
+    "id": "evt-001",
+    "title": "Mindful Monday Meditation",
+    "description": "Join us for a guided 30-minute meditation session to start your week with clarity and calm. Open to all experience levels.",
+    "category": "Mental",
+    "startDate": "2026-03-09T12:00:00",
+    "endDate": "2026-03-09T12:30:00",
+    "link": "",
+    "fileLinks": [],
+    "submitter": "Wellness Committee"
+  },
+  {
+    "id": "evt-002",
+    "title": "Spring Step Challenge Kickoff",
+    "description": "Kick off our 4-week team step challenge. Form teams of 4 and track your daily steps for prizes and bragging rights.",
+    "category": "Physical",
+    "startDate": "2026-03-16T09:00:00",
+    "endDate": "2026-03-16T10:00:00",
+    "link": "",
+    "fileLinks": [],
+    "submitter": "HR Wellness"
+  },
+  {
+    "id": "evt-003",
+    "title": "Healthy Meal Prep Workshop",
+    "description": "Learn quick, budget-friendly meal prep techniques from a local nutritionist. Recipes and samples provided.",
+    "category": "Nutrition",
+    "startDate": "2026-03-20T11:30:00",
+    "endDate": "2026-03-20T12:30:00",
+    "link": "",
+    "fileLinks": [],
+    "submitter": "Nutrition Team"
+  },
+  {
+    "id": "evt-004",
+    "title": "Team Trivia Social",
+    "description": "Unwind with coworkers at our monthly trivia event. Snacks provided. Bring your best fun facts!",
+    "category": "Social",
+    "startDate": "2026-03-25T16:00:00",
+    "endDate": "2026-03-25T17:00:00",
+    "link": "",
+    "fileLinks": [],
+    "submitter": "Social Committee"
+  },
+  {
+    "id": "evt-005",
+    "title": "Career Development Lunch & Learn",
+    "description": "A panel discussion on navigating career growth, featuring leaders from across the organization.",
+    "category": "Professional",
+    "startDate": "2026-04-02T12:00:00",
+    "endDate": "2026-04-02T13:00:00",
+    "link": "",
+    "fileLinks": [],
+    "submitter": "L&D Team"
+  },
+  {
+    "id": "evt-006",
+    "title": "Yoga in the Park",
+    "description": "Weather permitting, join us for an outdoor yoga session. All levels welcome. Mats provided.",
+    "category": "Physical",
+    "startDate": "2026-04-10T07:30:00",
+    "endDate": "2026-04-10T08:30:00",
+    "link": "",
+    "fileLinks": [],
+    "submitter": "Wellness Committee"
+  }
+]

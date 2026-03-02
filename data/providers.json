@@ -1,0 +1,29 @@
+[
+  {
+    "id": "prov-001",
+    "title": "Dr. Sarah Chen — Licensed Counselor",
+    "description": "Specializing in workplace stress, anxiety, and burnout. Offers virtual and in-person sessions. Accepts most major insurance plans.",
+    "link": "",
+    "fileLinks": [],
+    "specialties": ["Stress Management", "Anxiety", "Burnout"],
+    "submitter": "EAP Office"
+  },
+  {
+    "id": "prov-002",
+    "title": "FitLife Physical Therapy",
+    "description": "Ergonomic assessments, injury prevention, and rehabilitation. On-site consultations available for employees.",
+    "link": "https://example.com/fitlife",
+    "fileLinks": [],
+    "specialties": ["Ergonomics", "Physical Therapy", "Injury Prevention"],
+    "submitter": "Safety Team"
+  },
+  {
+    "id": "prov-003",
+    "title": "NutriBalance Dietetics",
+    "description": "Registered dietitians offering personalized nutrition counseling, meal planning, and group workshops.",
+    "link": "https://example.com/nutribalance",
+    "fileLinks": [],
+    "specialties": ["Nutrition", "Meal Planning", "Weight Management"],
+    "submitter": "Wellness Committee"
+  }
+]

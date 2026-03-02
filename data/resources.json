@@ -1,0 +1,34 @@
+[
+  {
+    "id": "res-001",
+    "title": "Employee Assistance Program (EAP) Guide",
+    "description": "Complete guide to our confidential EAP services including counseling, legal consultation, and financial planning support.",
+    "link": "",
+    "fileLinks": [{"name": "EAP-Guide-2026.pdf", "url": "#"}],
+    "submitter": "HR Department"
+  },
+  {
+    "id": "res-002",
+    "title": "Desk Stretching Routine",
+    "description": "A printable 10-minute stretching routine you can do at your desk. Targets neck, shoulders, wrists, and lower back.",
+    "link": "",
+    "fileLinks": [{"name": "Desk-Stretches.pdf", "url": "#"}],
+    "submitter": "Ergonomics Team"
+  },
+  {
+    "id": "res-003",
+    "title": "Mental Health First Aid Resources",
+    "description": "Information on recognizing signs of mental health challenges and how to support colleagues. Includes crisis hotline numbers.",
+    "link": "https://www.mentalhealthfirstaid.org",
+    "fileLinks": [],
+    "submitter": "Wellness Committee"
+  },
+  {
+    "id": "res-004",
+    "title": "Benefits Summary — Wellness Perks",
+    "description": "Overview of all wellness-related benefits: gym reimbursement, wellness days, health screenings, and more.",
+    "link": "",
+    "fileLinks": [{"name": "Wellness-Benefits-2026.pdf", "url": "#"}],
+    "submitter": "Benefits Team"
+  }
+]
