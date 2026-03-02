@@ -7,7 +7,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   const data = await loadAllData();
 
   renderUpcomingEvents(data.events);
-  renderRecommendedProviders(data.recommendations, data.providers);
   renderLatestResources(data.resources);
   renderAnnouncement(data.events);
 });
@@ -50,29 +49,6 @@ function renderUpcomingEvents(events) {
   upcoming.forEach((evt) => {
     const card = createCard(evt, 'event');
     container.appendChild(card);
-  });
-}
-
-function renderRecommendedProviders(recs, providers) {
-  const container = document.getElementById('homeRecommendedProviders');
-  if (!container) return;
-
-  // Interleave recommendations and providers, take up to 3
-  const combined = [];
-  const maxRecs = recs.slice(0, 2);
-  const maxProvs = providers.slice(0, 2);
-  maxRecs.forEach((r) => combined.push({ item: r, type: 'recommendation' }));
-  maxProvs.forEach((p) => combined.push({ item: p, type: 'provider' }));
-  const items = combined.slice(0, 3);
-
-  if (items.length === 0) {
-    showEmpty(container, 'No recommendations or providers yet');
-    return;
-  }
-
-  container.innerHTML = '';
-  items.forEach(({ item, type }) => {
-    container.appendChild(createCard(item, type));
   });
 }
 
