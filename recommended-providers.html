@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Provider Directory — EHS LiveWell</title>
-  <meta name="description" content="Find approved wellness providers including counselors, nutritionists, and fitness professionals.">
+  <title>Recommended Providers — EHS LiveWell</title>
+  <meta name="description" content="Curated wellness recommendations and trusted providers vetted for our organization.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
@@ -28,8 +28,7 @@
       <div class="nav-links">
         <a href="index.html">Home</a>
         <a href="events.html">Events</a>
-        <a href="recommendations.html">Recommendations</a>
-        <a href="providers.html">Providers</a>
+        <a href="recommended-providers.html">Recommended Providers</a>
         <a href="resources.html">Resources</a>
         <a href="#" class="nav-submit" id="submitLink">+ Submit</a>
       </div>
@@ -39,8 +38,8 @@
   <!-- Page Header -->
   <section class="page-header">
     <div class="container">
-      <h1>Provider Directory</h1>
-      <p>Trusted wellness professionals vetted and recommended for our organization.</p>
+      <h1>Recommended Providers</h1>
+      <p>Curated wellness resources and trusted professionals vetted for our organization.</p>
     </div>
   </section>
 
@@ -50,12 +49,15 @@
       <div class="filters">
         <div class="search-box">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          <input type="text" id="searchInput" placeholder="Search providers...">
+          <input type="text" id="searchInput" placeholder="Search recommendations and providers...">
         </div>
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="recommendation">Recommendations</button>
+        <button class="filter-btn" data-filter="provider">Providers</button>
       </div>
 
       <!-- Cards -->
-      <div class="cards-grid" id="providersGrid">
+      <div class="cards-grid" id="combinedGrid">
         <div class="loading"><div class="spinner"></div></div>
       </div>
     </div>
@@ -72,8 +74,7 @@
         <div class="footer-col">
           <h4>Quick Links</h4>
           <a href="events.html">Events Calendar</a>
-          <a href="recommendations.html">Recommendations</a>
-          <a href="providers.html">Provider Directory</a>
+          <a href="recommended-providers.html">Recommended Providers</a>
           <a href="resources.html">Wellness Resources</a>
         </div>
         <div class="footer-col">
@@ -87,6 +88,6 @@
   </footer>
 
   <script src="js/main.js"></script>
-  <script src="js/providers.js"></script>
+  <script src="js/recommended-providers.js"></script>
 </body>
 </html>

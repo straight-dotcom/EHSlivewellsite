@@ -7,8 +7,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const data = await loadAllData();
 
   renderUpcomingEvents(data.events);
-  renderLatestRecommendations(data.recommendations);
-  renderFeaturedProviders(data.providers);
+  renderRecommendedProviders(data.recommendations, data.providers);
   renderLatestResources(data.resources);
   renderAnnouncement(data.events);
 });
@@ -54,36 +53,26 @@ function renderUpcomingEvents(events) {
   });
 }
 
-function renderLatestRecommendations(recs) {
-  const container = document.getElementById('homeRecommendations');
+function renderRecommendedProviders(recs, providers) {
+  const container = document.getElementById('homeRecommendedProviders');
   if (!container) return;
 
-  const latest = recs.slice(0, 3);
-  if (latest.length === 0) {
-    showEmpty(container, 'No recommendations yet');
+  // Interleave recommendations and providers, take up to 3
+  const combined = [];
+  const maxRecs = recs.slice(0, 2);
+  const maxProvs = providers.slice(0, 2);
+  maxRecs.forEach((r) => combined.push({ item: r, type: 'recommendation' }));
+  maxProvs.forEach((p) => combined.push({ item: p, type: 'provider' }));
+  const items = combined.slice(0, 3);
+
+  if (items.length === 0) {
+    showEmpty(container, 'No recommendations or providers yet');
     return;
   }
 
   container.innerHTML = '';
-  latest.forEach((rec) => {
-    container.appendChild(createCard(rec, 'recommendation'));
-  });
-}
-
-function renderFeaturedProviders(providers) {
-  const container = document.getElementById('homeProviders');
-  if (!container) return;
-
-  const featured = providers.slice(0, 3);
-  if (featured.length === 0) {
-    showEmpty(container, 'No providers listed yet');
-    return;
-  }
-
-  container.innerHTML = '';
-  featured.forEach((prov) => {
-    const card = createCard(prov, 'provider');
-    container.appendChild(card);
+  items.forEach(({ item, type }) => {
+    container.appendChild(createCard(item, type));
   });
 }
 
