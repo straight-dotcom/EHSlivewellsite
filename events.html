@@ -45,46 +45,17 @@
 
   <main class="section">
     <div class="container">
-      <!-- Category Legend -->
-      <div class="category-legend">
-        <div class="legend-item"><span class="legend-dot" style="background:var(--cat-physical)"></span> Physical</div>
-        <div class="legend-item"><span class="legend-dot" style="background:var(--cat-mental)"></span> Mental</div>
-        <div class="legend-item"><span class="legend-dot" style="background:var(--cat-nutrition)"></span> Nutrition</div>
-        <div class="legend-item"><span class="legend-dot" style="background:var(--cat-social)"></span> Social</div>
-        <div class="legend-item"><span class="legend-dot" style="background:var(--cat-professional)"></span> Professional</div>
-      </div>
-
-      <!-- Calendar Controls -->
-      <div class="calendar-controls">
-        <div class="calendar-nav">
-          <button id="prevMonth">&larr; Prev</button>
-          <h3 id="calendarTitle">March 2026</h3>
-          <button id="nextMonth">Next &rarr;</button>
-        </div>
-        <div class="view-toggle">
-          <button class="active" data-view="calendar">Calendar</button>
-          <button data-view="list">List</button>
-        </div>
-      </div>
-
-      <!-- Category Filter -->
-      <div class="filters" id="categoryFilters">
-        <button class="filter-btn active" data-cat="all">All</button>
-        <button class="filter-btn" data-cat="Physical">Physical</button>
-        <button class="filter-btn" data-cat="Mental">Mental</button>
-        <button class="filter-btn" data-cat="Nutrition">Nutrition</button>
-        <button class="filter-btn" data-cat="Social">Social</button>
-        <button class="filter-btn" data-cat="Professional">Professional</button>
-      </div>
-
-      <!-- Calendar View -->
-      <div id="calendarView">
-        <div class="calendar-grid" id="calendarGrid"></div>
-      </div>
-
-      <!-- List View -->
-      <div id="listView" style="display:none;">
-        <div class="events-list" id="eventsList"></div>
+      <!-- Google Calendar Embed -->
+      <div class="calendar-embed">
+        <iframe
+          src="https://calendar.google.com/calendar/embed?src=episcopalhighschool.org_7ffapvk344g81e0h5hff2dgu64%40group.calendar.google.com&src=episcopalhighschool.org_36m49fti5ro1rb16m2qrasmprc%40group.calendar.google.com&src=episcopalhighschool.org_3gbspr1l36ko1f83l9vsou3grs%40group.calendar.google.com&ctz=America%2FNew_York&showTitle=0&showPrint=0&showTabs=1&showCalendars=1&showTz=0"
+          style="border: 0;"
+          width="100%"
+          height="650"
+          frameborder="0"
+          scrolling="no"
+          title="EHS LiveWell Events Calendar">
+        </iframe>
       </div>
     </div>
   </main>
@@ -114,6 +85,5 @@
   </footer>
 
   <script src="js/main.js"></script>
-  <script src="js/events.js"></script>
 </body>
 </html>
